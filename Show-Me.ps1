@@ -1,5 +1,5 @@
 clear
-Write-Host "Gathering inventory information... V1"
+Write-Host "Gathering inventory information... V1.1"
 # Date
 $Date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 # IP
