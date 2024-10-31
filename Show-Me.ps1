@@ -85,5 +85,5 @@ $ChassisDescription = switch ($Chassis) {
   Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "GPU 1" -Value $GPU1
   Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "OS" -Value $OS
   Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "OS Version" -Value $OSBuild
-  $infoObject
+  #$infoObject
 
