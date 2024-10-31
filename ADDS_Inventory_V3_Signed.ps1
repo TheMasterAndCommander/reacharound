@@ -1,4 +1,3 @@
-﻿#Requires -Version 3.0
 #requires -Module ActiveDirectory
 #requires -Module GroupPolicy
 #This File is in Unicode format.  Do not edit in an ASCII editor. Notepad++ UTF-8-BOM
