@@ -33,26 +33,6 @@ $OS = Get-WmiObject -Class Win32_OperatingSystem | Select-Object -ExpandProperty
 $OSBuild = (Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
 # Username
 $Username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-# Monitor(s)
-function GetMonitorInfo {
-  # Thanks to https://github.com/MaxAnderson95/Get-Monitor-Information
-  $Monitors = Get-WmiObject -Namespace "root\WMI" -Class "WMIMonitorID"
-  foreach ($Monitor in $Monitors) {
-    ([System.Text.Encoding]::ASCII.GetString($Monitor.ManufacturerName)).Replace("$([char]0x0000)","")
-    ([System.Text.Encoding]::ASCII.GetString($Monitor.UserFriendlyName)).Replace("$([char]0x0000)","")
-    ([System.Text.Encoding]::ASCII.GetString($Monitor.SerialNumberID)).Replace("$([char]0x0000)","")
-  }
-}
-## If some computers have more than three monitors, you can copy the lines below, but change the variable and index number by counting them up by 1.
-$Monitor1 = GetMonitorInfo | Select-Object -Index 0,1
-$Monitor1SN = GetMonitorInfo | Select-Object -Index 2
-$Monitor2 = GetMonitorInfo | Select-Object -Index 3,4
-$Monitor2SN = GetMonitorInfo | Select-Object -Index 5
-$Monitor3 = GetMonitorInfo | Select-Object -Index 6,7
-$Monitor3SN = GetMonitorInfo | Select-Object -Index 8
-$Monitor1 = $Monitor1 -join ' '
-$Monitor2 = $Monitor2 -join ' '
-$Monitor3 = $Monitor3 -join ' '
 # Type of computer
 # Values are from https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-systemenclosure
 $Chassis = Get-CimInstance -ClassName Win32_SystemEnclosure -Namespace 'root\CIMV2' -Property ChassisTypes | Select-Object -ExpandProperty ChassisTypes
@@ -105,12 +85,6 @@ $ChassisDescription = switch ($Chassis) {
   Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "GPU 1" -Value $GPU1
   Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "OS" -Value $OS
   Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "OS Version" -Value $OSBuild
-  Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "Monitor 1" -Value $Monitor1
-  Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "Monitor 1 Serial Number" -Value $Monitor1SN
-  Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "Monitor 2" -Value $Monitor2
-  Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "Monitor 2 Serial Number" -Value $Monitor2SN
-  Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "Monitor 3" -Value $Monitor3
-  Add-Member -InputObject $infoObject -MemberType NoteProperty -Name "Monitor 3 Serial Number" -Value $Monitor3SN
   $infoObject
   $infoColl += $infoObject
 
