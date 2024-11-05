@@ -6,7 +6,7 @@
 
 	[string]$ComputerName=(Get-DnsClientServerAddress | Select-Object -ExpandProperty ServerAddresses)[0]
 	[Switch]$AllDNSServers=$True
-	[Switch]$Details=$False
+	[Switch]$Details=$True
 	[Switch]$HTML=$False
 	[Switch]$Text=$False
 	[Switch]$AddDateTime=$False
